@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="home-element">
+    <template>
+        <style>
+
+        </style>
+        <div class="main-content">
+            <div class="qr-scanner">
+                <qr-reader output id="qrReader"></qr-reader>
+            </div>
+            <div class="action">
+                <paper-button on-tap="_startScan">Scan QR</paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "home-element",
+        properties: {
+
+        },
+        _startScan : function (e) {
+        	this.$.qrReader.scanNow();
+        }
+    });
+    </script>
+</dom-module>

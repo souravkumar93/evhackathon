@@ -1,0 +1,113 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="qr-reader">
+    <template>
+        <style>
+        #canvas {
+            display: none;
+        }
+        </style>
+        <video id="video" autoplay width="320" height="240">Put your fallback message here.</video>
+        <canvas id="canvas" width="320" height="240"></canvas>
+        <div id="output">
+            {{scannedValue}}
+        </div>
+        <content></content>
+    </template>
+    <script>
+    Polymer({
+            is: "qr-reader",
+            properties: {
+                orderList: {
+                    type: Array,
+                    value: []
+                },
+                outputAttr: {
+                    type: String,
+                    value: "textContent"
+                },
+                interval: {
+                    type: Number,
+                    value: 1000
+                },
+                scale: {
+                    type: Number,
+                    value: 0.5
+                },
+                scannedValue: {
+                    type: String,
+                    value: ""
+                },
+            },
+            scanNow: function() {
+                var me = this,
+                    media_options, success, error;
+                qrcode.callback = function(value) {
+                    this.setValue(value);
+                }.bind(this);
+                navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+                if (navigator.getUserMedia) {
+                    media_options = {
+                        "audio": false,
+                        "video": true
+                    };
+                    success = function(stream) {
+                        me.$.video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+                        stream_obj = stream;
+                        me.startScan();
+                    };
+                    error = function(error) {
+                        if (error && error.message) {
+                            console.log(error.message);
+                        }
+                    };
+                    navigator.getUserMedia(media_options, success, error);
+                } else {
+                    this.$.output.innerHTML = 'Sorry, native web camera streaming is not supported by this browser...';
+                }
+            },
+            setValue: function(value) {
+                this.set('scannedValue', value);
+                this.stopScan();
+            },
+            startScan: function() {
+                var me = this;
+                var interval_id;
+                if (this.interval_id) {
+                    me.stop();
+                }
+                this.interval_id = setInterval(function(video, scale) {
+                    me.capture()
+                }, this.interval);
+            },
+            stopScan: function() {
+                clearInterval(this.interval_id);
+                this.stop();
+            },
+            capture: function() {
+                var w = this.$.video.videoWidth * this.scale,
+                    h = this.$.video.videoHeight * this.scale,
+                    canvas = this.$.canvas.getContext('2d');
+                canvas.drawImage(this.$.video, 0, 0, w, h);
+                try {
+                    qrcode.decode();
+                    this.stopScan();
+                } catch (err) {
+                    //console.log(err);
+                }
+            },
+            stop: function() {
+                if (stream_obj) {
+                    if ('stop' in stream_obj) {
+                        stream_obj.stop();
+                    } else {
+                        this.$.video.pause();
+                        this.$.video.src = null;
+                        stream_obj.getVideoTracks()[0].stop();
+                    }
+                }
+            }
+        }
+
+    );
+    </script>
+</dom-module>
