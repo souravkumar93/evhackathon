@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="home-element">
+    <template>
+        <style>
+        paper-button {
+            background-color: blue;
+            color: #fff;
+        }
+        </style>
+        <div class="main-content">
+            <div class="qr-scanner">
+                <qr-reader output id="qrReader"></qr-reader>
+            </div>
+            <div>
+                {{qrValue}}
+            </div>
+            <div class="action" hidden$="{{isScan}}">
+                <paper-button on-tap="_startScan">Scan QR</paper-button>
+            </div>
+            <div class="action" hidden$="{{!isScan}}">
+                <paper-button on-tap="_stopScan">Stop Scanning</paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "home-element",
+        properties: {
+            qrValue: {
+                type: Object,
+                value: {}
+            },
+            isQrValue: {
+                type: Boolean,
+                value: false
+            },
+            isScan : {
+                type : Boolean,
+                value : false
+            }
+        },
+        listeners: {
+            'qr-value': "_getQrValue"
+        },
+        behaviors: [CommonBehavior.AjaxBehavior],
+        _startScan: function(e) {
+            this.$.qrReader.scanNow();
+        },
+        _stopScan: function(e) {
+            this.$.qrReader.stopScan();
+        },
+        _getQrValue: function(e) {
+            this.set(qrValue, e.detail.value);
+        }
+    });
+    </script>
+</dom-module>

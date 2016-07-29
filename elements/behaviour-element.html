@@ -1,0 +1,87 @@
+<script>
+var CommonBehavior = CommonBehavior || {};
+
+CommonBehavior.AjaxBehavior = {
+
+    makeAjaxCall: function(url, method, body, header, cb) {
+        var ajax = document.createElement("iron-ajax");
+        ajax.contentType = "application/json";
+        ajax.handleAs = "json";
+        ajax.url = url;
+        ajax.method = method.toUpperCase();
+        
+        if (body) {
+            delete body._scope;
+            delete body.score;
+            ajax.body = JSON.stringify(body);
+        }
+
+        // if (header) {
+        //     Object.keys(header).forEach(function(k) {
+        //         var val = header[k];
+        //         if (Array.isArray(val)) {
+        //             ajax.headers[k] = val[0]
+        //         } else {
+        //             ajax.headers[k] = val
+        //         }
+
+        //     })
+        // }
+
+        ajax.addEventListener('response', function(event) {
+            if (cb) {
+                cb(null, event.detail.response);
+            }
+        });
+
+        ajax.addEventListener('error', function(err) {
+            if (cb) {
+                cb(err);
+            }
+        });
+        ajax.generateRequest();
+    },
+    resolveError: function(err) {
+        if (!err.detail.request.response) {
+            this.fire('ev-show-error', 'Server did not respond');
+        } else {
+            var errorObj = err.detail.request.response.error;
+            var errorMessages = [];
+
+            if (errorObj && errorObj.details && errorObj.details.messages && errorObj.details.messages.errs && errorObj.details.messages.errs.length > 0) {
+                var errorMessage = "Validation error : - \n";
+                var errTmpObj = errorObj.details.messages.errs;
+                errTmpObj.forEach(function(d) {
+                    errorMessage += d.path + " -> " + d.message + '\n';
+                });
+                errorMessages.push(errorMessage);
+            }
+
+            if (errorObj && errorObj.errors && errorObj.errors.length > 0) {
+                var errorMessage = "Validation error : - \n";
+                var errTmpObj = errorObj.errors;
+                errTmpObj.forEach(function(d) {
+                    errorMessage += d.path + " -> " + d.message + '\n';
+                });
+                errorMessages.push(errorMessage);
+                errorMessages.push(errorMessage);
+            }
+
+            if (errorObj && errorObj.message) {
+                errorMessages.push(errorObj.message);
+            }
+
+            if (errorObj.errmsg || errorObj.message) {
+                var errorMessage = errorObj.errmsg || errorObj.message;
+                errorMessages.push(errorMessage);
+            }
+
+            var errorMessage = "Unknown server error";
+            errorMessages.push(errorMessage);
+
+            this.fire('ev-show-error', errorMessages[0]);
+            return errorMessages[0];
+        }
+    }
+}
+</script>
