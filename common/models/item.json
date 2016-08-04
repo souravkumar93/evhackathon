@@ -1,0 +1,46 @@
+{
+  "name": "Item",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string",
+      "index": true
+    },
+    "subCategory": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": "string",
+    "price": "number",
+    "vendorId": {
+      "type": "number",
+      "index": true
+    },
+    "venueId": {
+      "type": "number",
+      "index": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "venue": {
+      "type": "belongsTo",
+      "model": "Venue",
+      "foreignKey": "venueId"
+    },
+    "vendor": {
+      "type": "belongsTo",
+      "model": "Vendor",
+      "foreignKey": "vendorId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

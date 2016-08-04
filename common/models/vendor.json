@@ -1,0 +1,27 @@
+{
+  "name": "Vendor",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "venues" : {
+      "type" : "hasMany",
+      "model" : "Venue",
+      "foreignKey" : "vendorId",
+      "through" :"Item",
+      "keyThrough": "venueId"
+    }
+    },
+  "acls": [],
+  "methods": {}
+}

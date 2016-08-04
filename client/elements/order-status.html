@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="order-status">
+    <template>
+        <style>
+        .header {
+            height: 21px;
+            border-bottom: 1px solid #eee;
+            padding-top: 16px;
+            text-align: center;
+            padding-bottom: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #3f51b5;
+            font-family: monospace;
+        }
+        </style>
+        <div class="main-content">
+            <div class="header">
+                Order Id : 1234
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "order-status",
+        properties: {
+            order: {
+                type: Object,
+                value: {}
+            }
+        }
+    });
+    </script>
+</dom-module>

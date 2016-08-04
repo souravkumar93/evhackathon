@@ -1,0 +1,33 @@
+{
+  "name": "Order",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "orderList": {
+      "type":"object"
+    },
+    "totalAmount": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "pay": {
+      "type" : "hasOne",
+      "model" : "Payment",
+      "foreignkey": ""
+    }
+    },
+  "acls": [],
+  "methods": {}
+}

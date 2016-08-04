@@ -1,0 +1,39 @@
+{
+  "name": "Venue",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "pin": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "vendors" : {
+      "type" : "hasMany",
+      "model" : "Vendor",
+      "foreignKey" : "venueId",
+      "through" :"Item",
+      "keyThrough": "vendorId"
+    }
+    },
+  "acls": [],
+  "methods": {}
+}

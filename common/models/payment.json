@@ -1,0 +1,37 @@
+{
+  "name": "Payment",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string"
+    },
+    "paymentId": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "index": true
+    },
+    "type": {
+      "type": "string"
+    },
+    "billAmount": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+      "ord" : {
+        "type": "belongsTo",
+        "model": "Order",
+        "foreignKey": ""
+      }
+    
+    },
+  "acls": [],
+  "methods": {}
+}

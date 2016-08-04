@@ -1,0 +1,144 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="item-list">
+    <template>
+        <style>
+            .header {
+                height: 21px;
+                border-bottom: 1px solid #eee;
+                padding-top: 16px;
+                text-align: center;
+                padding-bottom: 8px;
+                font-size: 16px;
+                font-weight: bold;
+                color: #3f51b5;
+                font-family: monospace;
+            }
+            
+            .item >* {
+                width: 25%;
+                float: left;
+                cursor: pointer;
+            }
+            
+            iron-icon {
+                color: #3f51b5;
+            }
+            
+            .item-header >* {
+                width: 25%;
+                float: left;
+                padding: 16px 8px;
+                box-sizing: border-box;
+            }
+            
+            .item-header {
+                height: 50px;
+                background-color: #ddd;
+                font-weight: bold;
+            }
+            
+            .item {
+                height: 40px;
+            }
+            
+            .item:nth-child(even) {
+                background-color: #eee;
+            }
+            
+            .item div {
+                padding: 10px 8px;
+                box-sizing: border-box;
+            }
+            
+            .item-list .floated-label-placeholder {
+                height: 0px;
+            }
+            
+            .remove {
+                padding: 0px 8px !important;
+                width: 72px !important;
+            }
+            
+            .total-price {
+                padding: 16px 28px 16px 8px;
+                width: 100%;
+                text-align: right;
+                box-sizing: border-box;
+                font-size: 20px;
+            }
+            
+            .pay-btn >paper-button {
+                background: #00f;
+                color: #fff;
+                width: 45%;
+                margin: 0% 2%;
+            }
+        </style>
+        <div class="main-content">
+            <div class="header">
+                Select Items
+            </div>
+            <div class="item-header">
+                <div>Item Name</div>
+                <div>Size </div>
+                <div> Price</div>
+                <div> Quantity</div>
+            </div>
+            <div class="list">
+                <template is="dom-repeat" items="[[items]]">
+                    <div class="item">
+                        <div class="name"> [[item.name]]</div>
+                        <div class="quantity"> [[item.type]] </div>
+                        <div class="price">
+                            [[item.price]] </div>
+                        <div class="remove">
+                            <paper-input type="number" no-label-float on-change="numberChange" value="{{item.nos}}"></paper-input>
+                        </div>
+                    </div>
+                </template>
+                <div class="total-price">
+                    Total Price - [[totalPrice]]
+                </div>
+                <div class="pay-btn">
+                    <paper-button on-tap="_pay" type="cash">Cash Pay</paper-button>
+                    <paper-button on-tap="_pay" type="online">Pay Online</paper-button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "item-list",
+        properties: {
+            items: {
+                type: Array
+            }
+        },
+        numberChange: function(e) {
+            var quantity = e.model.item.nos;
+            var index = e.model.index;
+            quantity = parseInt(quantity);
+            if (quantity < 0)
+                quantity = 0;
+            this.set('items.' + index + '.nos', quantity);
+            this.calculatePrice();
+        },
+        calculatePrice: function() {
+            var totalPrice = 0;
+            this.items.forEach(function(d) {
+                if (!d.nos)
+                    d.nos = 0;
+                totalPrice += d.price * d.nos;
+            });
+            this.set('totalPrice', totalPrice);
+        },
+        _pay: function(e) {
+            var type = e.currentTarget.getAttribute('type');
+            this.fire('place-order', {
+                data: this.items,
+                paymentType: type
+            });
+        }
+    });
+    </script>
+</dom-module>

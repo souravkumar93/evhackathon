@@ -1,0 +1,115 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="order-list">
+    <template>
+        <style>
+            .main-heading {
+                padding: 16px;
+                text-align: -webkit-center;
+                color: #00f;
+                font-size: 22px;
+            }
+            
+            .orders-header {
+                display: inline-block;
+                width: 100%;
+                background: #ddd;
+            }
+            
+            .orders-header>div {
+                float: left;
+                width: 33%;
+                height: 48px;
+                padding: 14px 8px;
+                box-sizing: border-box;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            
+            .item {
+                display: inline-block;
+                width: 100%;
+                cursor: pointer;
+            }
+            
+            .item:nth-child(even) {
+                background-color: #eee;
+            }
+            
+            .item>div {
+                float: left;
+                width: 33%;
+                height: 48px;
+                padding: 14px 8px;
+                box-sizing: border-box;
+            }
+            #orderDetail{
+                overflow: auto;
+            }
+        </style>
+        <div class="main-content">
+            <div class="main-heading">My Orders</div>
+            <div class="orders-header">
+                <div>OrderId</div>
+                <div>Total Amount</div>
+                <div>Status</div>
+            </div>
+            <div class="orders-list">
+                <template is="dom-repeat" items="[[orderList]]">
+                    <div class="item" on-tap="_getDetails">
+                        <div class="id"> [[item.id]]</div>
+                        <div class="amount"> [[item.totalAmount]] </div>
+                        <div class="status"> [[item.status]] </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <paper-dialog id="orderDetail">
+            <div class="main-content">
+                <div class="main-heading">Order# [[orderId]]</div>
+                <div class="orders-header">
+                    <div>Product</div>
+                    <div>Quantity</div>
+                    <div>price</div>
+                </div>
+                <div class="orders-list">
+                    <template is="dom-repeat" items="[[detailsList]]">
+                        <div class="item">
+                            <div class="id"> [[item.item.name]]</div>
+                            <div class="amount"> [[item.quantity]] </div>
+                            <div class="status"> [[item.item.price]] </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+    Polymer({
+        is: "order-list",
+        properties: {
+            orderList: {
+                type: Array,
+                value: []
+            }
+        },
+        behaviors: [CommonBehavior.AjaxBehavior],
+        _getDetails: function(e) {
+            this.set('detailsList',JSON.parse(JSON.stringify(e.model.item.orderList)));
+            this.set('orderId',JSON.parse(JSON.stringify(e.model.item.id)));
+            this.$.orderDetail.open();
+        },
+        getOrderList : function(){
+            var url = "api/Orders"
+            this.makeAjaxCall(url,'get',null,null,function(err,resp){
+                if(resp){
+                    var data = resp;
+                    data.forEach(function(d){
+                       d.id = d.id.substring(0,5); 
+                    });
+                    this.set('orderList',data);
+                }
+            }.bind(this));
+        }
+    });
+    </script>
+</dom-module>

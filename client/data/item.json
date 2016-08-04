@@ -1,0 +1,55 @@
+[{
+    "itemCode": "NA001",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Small",
+    "price" : 80,
+    "vendorId": "2003",
+    "venueId": "1005"
+},{
+    "itemCode": "NA002",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Large",
+    "price" : 180,
+    "vendorId": "2003",
+    "venueId": "1005"
+},{
+    "itemCode": "NA003",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Medium",
+    "price" : 100,
+    "vendorId": "2003",
+    "venueId": "1005"
+},{
+    "itemCode": "NA004",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Small",
+    "price" : 80,
+    "vendorId": "2003",
+    "venueId": "1005"
+},{
+    "itemCode": "NA005",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Large",
+    "price" : 180,
+    "vendorId": "2003",
+    "venueId": "1005"
+},{
+    "itemCode": "NA006",
+    "category": "snacks",
+    "subCategory": "snacks",
+    "name": "Nachos",
+    "type":"Medium",
+    "price" : 100,
+    "vendorId": "2003",
+    "venueId": "1005"
+}]

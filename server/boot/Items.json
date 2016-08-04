@@ -1,0 +1,100 @@
+[{
+  "id": 3001,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "PopCorn",
+  "type": "Big",
+  "price":350,
+  "vendorId": 2001,
+  "venueId": 1001
+},
+{
+  "id": 3002,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "PopCorn",
+  "type": "Big",
+  "price" : 250,
+  "vendorId": 2001,
+  "venueId": 1002
+},
+{
+  "id": 3003,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "PopCorn",
+  "type": "Small",
+  "price" : 150,
+  "vendorId": 2002,
+  "venueId": 1001
+},
+{
+  "id": 3004,
+  "category": "beverages",
+  "subCategory": "cold",
+  "name": "Pepsi",
+  "type": "300ml",
+  "price" : 100,
+  "vendorId": 2001,
+  "venueId": 1001
+},
+{
+  "id": 3005,
+  "category": "beverages",
+  "subCategory": "cold",
+  "name": "Pepsi",
+  "type": "750ml",
+  "price" : 250,
+  "vendorId": 2001,
+  "venueId": 1002
+},
+{
+  "id": 3006,
+  "category": "beverages",
+  "subCategory": "hot",
+  "name": "GingerTea",
+  "type": "Big",
+  "price" : 100,
+  "vendorId": 2002,
+  "venueId": 1001
+},
+{
+  "id": 3007,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "Nachos",
+  "type": "Medium",
+  "price" : 250,
+  "vendorId": 2003,
+  "venueId": 1005
+},
+{
+  "id": 3008,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "Nachos",
+  "type": "Big",
+  "price" : 480,
+  "vendorId": 2003,
+  "venueId": 1006
+},
+{
+  "id": 3009,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "Nachos",
+  "type": "Big",
+  "price" : 250,
+  "vendorId": 2004,
+  "venueId": 1006
+},
+{
+  "id": 3010,
+  "category": "snacks",
+  "subCategory": "snacks",
+  "name": "Nachos",
+  "type": "Small",
+  "price" : 60,
+  "vendorId": 2004,
+  "venueId": 1005
+}]

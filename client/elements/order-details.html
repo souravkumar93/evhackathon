@@ -1,0 +1,84 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="order-details">
+    <template>
+        <style>
+            .main-heading {
+                padding: 16px;
+                text-align: -webkit-center;
+                color: #00f;
+                font-size: 22px;
+            }
+            
+            .orders-header {
+                display: inline-block;
+                width: 100%;
+                background: #ddd;
+            }
+            
+            .orders-header>div {
+                float: left;
+                width: 33%;
+                height: 48px;
+                padding: 14px 8px;
+                box-sizing: border-box;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            
+            .item {
+                display: inline-block;
+                width: 100%;
+            }
+            
+            .item:nth-child(even) {
+                background-color: #eee;
+            }
+            
+            .item>div {
+                float: left;
+                width: 33%;
+                height: 44px;
+                padding: 14px 8px;
+                box-sizing: border-box;
+            }
+            
+            paper-dialog {}
+        </style>
+        <paper-dialog id="orderDetail">
+            <div class="main-content">
+                <div class="main-heading">Order Details</div>
+                <div class="orders-header">
+                    <div>Product</div>
+                    <div>Quantity</div>
+                    <div>price</div>
+                </div>
+                <div class="orders-list">
+                    <template is="dom-repeat" items="[[detailsList]]">
+                        <div class="item">
+                            <div class="id"> [[item.name]]</div>
+                            <div class="amount"> [[item.quantity]] </div>
+                            <div class="status"> [[item.price]] </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+    Polymer({
+        is: "order-details",
+        properties: {
+            detailsList: {
+                type: Array,
+                value: []
+            }
+        },
+        openDialog : function(){
+            this.$.orderDetail.open();
+        },
+        closeDialog : function(){
+            this.$.orderDetail.close();
+        }
+    });
+    </script>
+</dom-module>
