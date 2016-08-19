@@ -4,14 +4,12 @@
     "connector": "memory"
   },
   "mongoDb": {
-    "host": "localhost",
-    "port": 27017,
-    "url": "mongodb://localhost:27017/db",
-    "database": "db",
-    "password": "admin",
+    "url":"mongodb://root:souravkumar09@ds051883.mlab.com:51883/heroku_sj2pt0cj",
+    "database": "heroku_sj2pt0cj",
+    "password": "souravkumar09",
     "name": "mongoDb",
     "connector": "mongodb",
-    "user": "admin",
+    "user": "root",
     "connectionTimeout": 50000
   },
   "chatBot": {

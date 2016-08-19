@@ -64,7 +64,7 @@
     "$resolved": true
   },
   "ChatBot": {
-    "dataSource": "chatBot",
+    "dataSource": "mongoDb",
     "public": true,
     "$promise": {},
     "$resolved": true
