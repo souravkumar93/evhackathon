@@ -11,16 +11,5 @@
     "connector": "mongodb",
     "user": "root",
     "connectionTimeout": 50000
-  },
-  "chatBot": {
-    "name": "chatBot",
-    "connector": "rest",
-    "baseURL": "http://localhost:8080",
-    "options": {
-      "headers": {
-        "accept": "application/json",
-        "content-type": "application/json"
-      }
-    }
   }
 }
