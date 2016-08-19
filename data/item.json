@@ -1,0 +1,71 @@
+[{
+    "itemId": "item111",
+    "name": "Nachos(Small)",
+    "price": 80,
+    "availableQuantity": 10,
+    "venueId": "vu111",
+    "vendorId": "vd111"
+}, {
+    "itemId": "item222",
+    "name": "Nachos(Small)",
+    "price": 100,
+    "availableQuantity": 5,
+    "venueId": "vu222",
+    "vendorId": "vd111"
+}, {
+    "itemId": "item333",
+    "name": "cappuccino",
+    "price": 100,
+    "availableQuantity": 15,
+    "venueId": "vu222",
+    "vendorId": "vd222"
+}, {
+    "itemId": "item444",
+    "name": "latte",
+    "price": 120,
+    "availableQuantity": 5,
+    "venueId": "vu222",
+    "vendorId": "vd222"
+}, {
+    "itemId": "item555",
+    "name": "cold coffee",
+    "price": 120,
+    "availableQuantity": 5,
+    "venueId": "vu222",
+    "vendorId": "vd222"
+}, {
+    "itemId": "item666",
+    "name": "chicken samosa",
+    "price": 70,
+    "availableQuantity": 1,
+    "venueId": "vu444",
+    "vendorId": "vd333"
+}, {
+    "itemId": "item777",
+    "name": "veg sandwich",
+    "price": 90,
+    "availableQuantity": 7,
+    "venueId": "vu444",
+    "vendorId": "vd333"
+}, {
+    "itemId": "item888",
+    "name": "veg patty",
+    "price": 40,
+    "availableQuantity": 12,
+    "venueId": "vu333",
+    "vendorId": "vd333"
+}, {
+    "itemId": "item999",
+    "name": "muffins",
+    "price": 30,
+    "availableQuantity": 4,
+    "venueId": "vu333",
+    "vendorId": "vd333"
+}, {
+    "itemId": "item1111",
+    "name": "boiled water(300ml)",
+    "price": 390,
+    "availableQuantity": 4,
+    "venueId": "vu333",
+    "vendorId": "vd222"
+}]

@@ -7,21 +7,30 @@
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "vendorId": {
       "type": "string",
-      "required": false
+      "id": true,
+      "index": true
+    },
+    "name": {
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "venues" : {
-      "type" : "hasMany",
-      "model" : "Venue",
-      "foreignKey" : "vendorId",
-      "through" :"Item",
-      "keyThrough": "venueId"
-    }
+    "hasvenues": {
+      "type": "hasMany",
+      "model": "Venue",
+      "foreignKey": "vendorId",
+      "through": "Item"
     },
+    "user": {
+      "type": "belongsTo",
+      "model": "snacksUser",
+      "foreignKey": ""
+    }
+
+  },
   "acls": [],
   "methods": {}
 }

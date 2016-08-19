@@ -1,0 +1,56 @@
+{
+  "name": "OrderSummary",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "orderSummaryId": {
+      "type": "string",
+      "id": true,
+      "index": true
+    },
+    "billAmount": {
+      "type": "number"
+    },
+    "itemList": {
+      "type": [{
+        "name": "string",
+        "price": "number",
+        "quantity": "number",
+        "itemId": "string",
+        "vendorId": "string"
+      }]
+    },
+    "deliveryLocation": {
+      "type": "string"
+    },
+    "paymentType": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string",
+      "required": true
+    },
+    "orderDate": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "consumer": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignkey": "userId"
+    },
+    "vendorOrder": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignkey": "orderId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

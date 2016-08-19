@@ -36,12 +36,12 @@ module.exports = function (app) {
 			return;
 		}
     }
-	console.log("\n\nSkipping data load. (Use command-line parameter 'upload' or '--upload' or '-U' to enable upload)\n\n");
+	//console.log("\n\nSkipping data load. (Use command-line parameter 'upload' or '--upload' or '-U' to enable upload)\n\n");
 }
 
 function load(app) {
-    var models = ["Item", "Vendor", "Venue"];
-	var filepath = ["Items.json","Vendor.json","Venue.json"];
+    var models = ["Item", "Vendor", "Venue","Ticket","Role","snacksUser"];
+	var filepath = ["Items.json","Vendor.json","Venue.json","ticket.json","roles.json","snacks-user.json"];
 	
     async.eachSeries(models, function(modelName, callback){
         var model = loopback.findModel(modelName);
@@ -50,7 +50,6 @@ function load(app) {
 		var data = JSON.parse(datatext);
 		model.create(data, function(err, data) {
 	        if (!err) {
-                
 	            //console.log("DEBUG: (" + (currentcount) + " / " + filecount + ") Inserted " + data.length + " records in ", meta.contexts[entry.ctxId].tenantId, "."	+ entry.model);
 	        }
 	        else {

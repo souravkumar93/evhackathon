@@ -1,100 +1,71 @@
 [{
-  "id": 3001,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "PopCorn",
-  "type": "Big",
-  "price":350,
-  "vendorId": 2001,
-  "venueId": 1001
-},
-{
-  "id": 3002,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "PopCorn",
-  "type": "Big",
-  "price" : 250,
-  "vendorId": 2001,
-  "venueId": 1002
-},
-{
-  "id": 3003,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "PopCorn",
-  "type": "Small",
-  "price" : 150,
-  "vendorId": 2002,
-  "venueId": 1001
-},
-{
-  "id": 3004,
-  "category": "beverages",
-  "subCategory": "cold",
-  "name": "Pepsi",
-  "type": "300ml",
-  "price" : 100,
-  "vendorId": 2001,
-  "venueId": 1001
-},
-{
-  "id": 3005,
-  "category": "beverages",
-  "subCategory": "cold",
-  "name": "Pepsi",
-  "type": "750ml",
-  "price" : 250,
-  "vendorId": 2001,
-  "venueId": 1002
-},
-{
-  "id": 3006,
-  "category": "beverages",
-  "subCategory": "hot",
-  "name": "GingerTea",
-  "type": "Big",
-  "price" : 100,
-  "vendorId": 2002,
-  "venueId": 1001
-},
-{
-  "id": 3007,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "Nachos",
-  "type": "Medium",
-  "price" : 250,
-  "vendorId": 2003,
-  "venueId": 1005
-},
-{
-  "id": 3008,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "Nachos",
-  "type": "Big",
-  "price" : 480,
-  "vendorId": 2003,
-  "venueId": 1006
-},
-{
-  "id": 3009,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "Nachos",
-  "type": "Big",
-  "price" : 250,
-  "vendorId": 2004,
-  "venueId": 1006
-},
-{
-  "id": 3010,
-  "category": "snacks",
-  "subCategory": "snacks",
-  "name": "Nachos",
-  "type": "Small",
-  "price" : 60,
-  "vendorId": 2004,
-  "venueId": 1005
+  "itemId": "item111",
+  "name": "Nachos(Small)",
+  "price": 80,
+  "availableQuantity": 10,
+  "venueId": "vu111",
+  "vendorId": "vd111"
+}, {
+  "itemId": "item222",
+  "name": "Nachos(Small)",
+  "price": 100,
+  "availableQuantity": 5,
+  "venueId": "vu222",
+  "vendorId": "vd111"
+}, {
+  "itemId": "item333",
+  "name": "cappuccino",
+  "price": 100,
+  "availableQuantity": 15,
+  "venueId": "vu222",
+  "vendorId": "vd222"
+}, {
+  "itemId": "item444",
+  "name": "latte",
+  "price": 120,
+  "availableQuantity": 5,
+  "venueId": "vu222",
+  "vendorId": "vd222"
+}, {
+  "itemId": "item555",
+  "name": "cold coffee",
+  "price": 120,
+  "availableQuantity": 5,
+  "venueId": "vu222",
+  "vendorId": "vd222"
+}, {
+  "itemId": "item666",
+  "name": "chicken samosa",
+  "price": 70,
+  "availableQuantity": 1,
+  "venueId": "vu444",
+  "vendorId": "vd333"
+}, {
+  "itemId": "item777",
+  "name": "veg sandwich",
+  "price": 90,
+  "availableQuantity": 7,
+  "venueId": "vu444",
+  "vendorId": "vd333"
+}, {
+  "itemId": "item888",
+  "name": "veg patty",
+  "price": 40,
+  "availableQuantity": 12,
+  "venueId": "vu333",
+  "vendorId": "vd333"
+}, {
+  "itemId": "item999",
+  "name": "muffins",
+  "price": 30,
+  "availableQuantity": 4,
+  "venueId": "vu333",
+  "vendorId": "vd333"
+}, {
+  "itemId": "item1111",
+  "name": "boiled water(300ml)",
+  "price": 390,
+  "availableQuantity": 4,
+  "venueId": "vu333",
+  "vendorId": "vd222"
 }]

@@ -7,27 +7,36 @@
     "validateUpsert": true
   },
   "properties": {
+    "orderId": {
+      "type": "string",
+      "id": true,
+      "index": true
+    },
     "status": {
-      "type": "string"
+      "type": "string",
+      "default": "PENDING"
     },
-    "destination": {
-      "type": "string"
-    },
-    "orderList": {
-      "type":"object"
-    },
-    "totalAmount": {
+    "amount": {
       "type": "number"
+    },
+    "vendorId": {
+      "type": "string",
+      "required": true
+    },
+    "itemList": {
+      "type": [{
+        "name": "string",
+        "price": "number",
+        "quantity": "number",
+        "itemId": "string"
+      }]
+    },
+    "deliveryLocation": {
+      "type": "string"
     }
   },
   "validations": [],
-  "relations": {
-    "pay": {
-      "type" : "hasOne",
-      "model" : "Payment",
-      "foreignkey": ""
-    }
-    },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

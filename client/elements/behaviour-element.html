@@ -13,21 +13,17 @@ CommonBehavior.AjaxBehavior = {
         if (body) {
             ajax.body = JSON.stringify(body);
         }
-        // ajax.headers = {
-        //     'Access-Control-Allow-Origin': "*"
-        // }
 
-        // if (header) {
-        //     Object.keys(header).forEach(function(k) {
-        //         var val = header[k];
-        //         if (Array.isArray(val)) {
-        //             ajax.headers[k] = val[0]
-        //         } else {
-        //             ajax.headers[k] = val
-        //         }
-
-        //     })
-        // }
+        if (header) {
+            Object.keys(header).forEach(function(k) {
+                var val = header[k];
+                if (Array.isArray(val)) {
+                    ajax.headers[k] = val[0]
+                } else {
+                    ajax.headers[k] = val
+                }
+            })
+        }
 
         ajax.addEventListener('response', function(event) {
             if (cb) {

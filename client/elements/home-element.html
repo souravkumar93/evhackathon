@@ -2,23 +2,23 @@
 <dom-module id="home-element">
     <template>
         <style>
-            paper-button {
-                background-color: blue;
-                color: #fff;
-                width: 100%;
-            }
-            
-            .action,
-            .qr-scanner {
-                padding: 16px 8px;
-            }
-            
-            .scan-btn {
-                width: 100%;
-                box-sizing: border-box;
-                margin: 0px;
-                max-width: 500px;
-            }
+        paper-button {
+            background-color: blue;
+            color: #fff;
+            width: 100%;
+        }
+        
+        .action,
+        .qr-scanner {
+            padding: 16px 8px;
+        }
+        
+        .scan-btn {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0px;
+            max-width: 500px;
+        }
         </style>
         <div class="main-content">
             <iron-pages selected="{{selected}}">
@@ -33,7 +33,7 @@
                     <item-list id="itemList"></item-list>
                 </div>
                 <div>
-                    <chatting-panel id="chatPanel"></chatting-panel>
+                    <chatting-panel venue="{{qrValue}}" id="chatPanel"></chatting-panel>
                 </div>
             </iron-pages>
             <!--   -->
@@ -77,8 +77,8 @@
         _getQrValue: function(e) {
             var data = e.detail.value;
             data = JSON.parse(data);
+            this.set('qrValue', data);
             var query = {
-                "include": ["vendor"],
                 "where": {
                     "venueId": data.venueId
                 }
@@ -104,7 +104,7 @@
         },
         setItemList: function(data) {
             data.forEach(function(d) {
-                d.nos = 0;
+                d.quantity = 0;
             });
             this.$.itemList.set('totalPrice', 0);
             this.$.itemList.set('items', data);
@@ -114,21 +114,20 @@
             this.set('selected', 2);
         },
         placeOrder: function(e) {
-            var items = e.detail.data;
-            var paymentType = e.detail.paymentType;
-            var orderedItems = items.map(function(d) {
-                return {
-                    quantity: d.nos,
-                    id: d.id
-                };
+            var items = e.detail.data.filter(function(d) {
+                return d.quantity > 0;
             });
-            this.data.orderedItems = orderedItems;
+            var paymentType = e.detail.paymentType;
+            this.data.itemList = items;
             this.data.paymentType = paymentType.toUpperCase();
-            this.postOrderDetails(orderedItems);
+            this.data.deliveryLocation = this.qrValue.deliveryLocation;
+            this.data.userId = sessionStorage.getItem('email');
+            this.postOrderDetails(this.data);
         },
-        postOrderDetails: function() {
-            var url = this.baseUrl + "Orders/postOrder";
-            this.makeAjaxCall(url, 'post', this.data, null, function(err, resp) {
+        postOrderDetails: function(data) {
+            var url = this.baseUrl + "OrderSummaries/placeOrder";
+            debugger;
+            this.makeAjaxCall(url, 'post', data, null, function(err, resp) {
                 if (err)
                     this.resolveError(err);
                 else {

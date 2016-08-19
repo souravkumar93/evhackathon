@@ -1,0 +1,26 @@
+[
+  {
+    "ticketId": "tk10001",
+    "showTime": "1800",
+    "showDate": "2016-08-20T00:00:00.000Z",
+    "seat": "Audi1#I20",
+    "venueId": "vu111",
+    "userId": "User2001"
+  },
+  {
+    "ticketId": "tk10002",
+    "showTime": "2100",
+    "showDate": "2016-08-20T00:00:00.000Z",
+    "seat": "Audi2#A10",
+    "venueId": "vu444",
+    "userId": "User2004"
+  },
+  {
+    "ticketId": "tk10003",
+    "showTime": "1300",
+    "showDate": "2016-08-20T00:00:00.000Z",
+    "seat": "stand3#A165",
+    "venueId": "vu222",
+    "userId": "User2006"
+  }
+]

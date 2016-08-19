@@ -7,35 +7,29 @@
     "validateUpsert": true
   },
   "properties": {
-    "category": {
+    "itemId": {
       "type": "string",
+      "id": true,
       "index": true
-    },
-    "subCategory": {
-      "type": "string"
     },
     "name": {
       "type": "string"
     },
-    "type": "string",
-    "price": "number",
-    "vendorId": {
-      "type": "number",
-      "index": true
+    "price": {
+      "type": "number"
     },
-    "venueId": {
-      "type": "number",
-      "index": true
+    "availableQuantity": {
+      "type": "number"
     }
   },
   "validations": [],
   "relations": {
-    "venue": {
+    "venueBel": {
       "type": "belongsTo",
       "model": "Venue",
       "foreignKey": "venueId"
     },
-    "vendor": {
+    "vendorBel": {
       "type": "belongsTo",
       "model": "Vendor",
       "foreignKey": "vendorId"

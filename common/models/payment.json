@@ -25,13 +25,12 @@
   },
   "validations": [],
   "relations": {
-      "ord" : {
-        "type": "belongsTo",
-        "model": "Order",
-        "foreignKey": ""
-      }
-    
-    },
+    "ord": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }

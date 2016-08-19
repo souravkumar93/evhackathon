@@ -1,0 +1,187 @@
+<dom-module id="vendor-items">
+    <template>
+        <style>
+        #dialog {
+            height: 70%;
+            width: 75%;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .bottom {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 8px 5px 8px 5px;
+        }
+        
+        iron-icon {
+            width: 16px;
+            cursor: pointer;
+        }
+        </style>
+        <div>
+            <div class="header">
+                Stocks
+                <paper-dropdown-menu label="Vendor Location" id="vendorLocation">
+                    <paper-menu class="dropdown-content" attr-for-selected="datavalue" selected="{{location}}">
+                        <template is="dom-repeat" items="[[locations]]">
+                            <paper-item datavalue="[[item.venueId]]" on-tap="_changeMenu">[[item.name]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <paper-button on-tap="addItem">Add New</paper-button>
+            </div>
+            <div>
+                <div class="content">
+                    <div><strong>Name</strong></div>
+                    <div><strong>Quantity Available</strong></div>
+                    <div><strong>Price</strong></div>
+                    <div></div>
+                </div>
+                <template is="dom-repeat" items="[[items]]">
+                    <div class="content">
+                        <div>[[item.name]]</div>
+                        <div>[[item.availableQuantity]]</div>
+                        <div>[[item.price]]</div>
+                        <div>
+                            <iron-icon icon="create" on-tap="editItem"></iron-icon>
+                            <iron-icon icon="delete" on-tap="deleteItem"></iron-icon>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <paper-dialog with-backdrop id="dialog">
+            <div>
+                <div class="header">
+                    New Item
+                </div>
+                <div>
+                    <paper-input label="Name" value="{{item.name}}"></paper-input>
+                    <paper-input label="Quantity" value="{{item.availableQuantity}}"></paper-input>
+                    <paper-input label="Price" value="{{item.price}}"></paper-input>
+                </div>
+                <div class="bottom">
+                    <paper-button on-tap="saveItem">save</paper-button>
+                    <paper-button on-tap="closeDialog">cancel</paper-button>
+                </div>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+    Polymer({
+        is: "vendor-items",
+        behaviors: [CommonBehavior.AjaxBehavior],
+        ready: function() {
+            this.refreshItems();
+        },
+        properties: {
+            items: {
+                type: Array,
+                value: []
+            },
+            item: {
+                type: Object,
+                value: {}
+            }
+        },
+        refreshItems: function() {
+            var url = 'api/Venues';
+            this.makeAjaxCall(url, 'get', null, null, function(err, resp) {
+                if (err)
+                    console.log(err);
+                else {
+                    this.set('locations', resp);
+                    this.set('location', resp[0].venueId);
+                    this._changeMenu({
+                        model: {
+                            item: resp[0]
+                        }
+                    })
+                }
+            }.bind(this));
+        },
+        addItem: function(e) {
+            this.set('item', {});
+            this.openDialog();
+        },
+        saveItem: function(e) {
+            if (this.item.isEdit) {
+                this.set('items.' + this.item.index, JSON.parse(JSON.stringify(this.item)));
+                this.update(this.item, 'put');
+            } else {
+                this.item.venueId = this.location;
+                this.item.vendorId = sessionStorage.getItem('vendorId');
+                this.push('items', this.item);
+                this.update(this.items[this.items.length - 1], 'post');
+            }
+            this.set('item', {});
+            this.closeDialog();
+        },
+        editItem: function(e) {
+            var index = e.model.index;
+            var data = this.items[index];
+            data.isEdit = true;
+            data.index = index;
+            this.set('item', data);
+            this.openDialog();
+        },
+        deleteItem: function(e) {
+            var index = e.model.index;
+            this.update(this.items[index], 'delete');
+            this.splice('items', index, 1);
+        },
+        openDialog: function(e) {
+            this.$.dialog.open();
+        },
+        closeDialog: function(e) {
+            this.$.dialog.close();
+        },
+        update: function(data, method) {
+            var url = 'api/items';
+            delete data.isEdit;
+            delete data.index;
+            if (method === 'put') {
+                this.makeAjaxCall(url, method, data, null, function(err, resp) {
+
+                });
+            } else if (method === 'post') {
+                data.itemId = 'item' + Math.floor(Math.random() * 10000);
+                this.makeAjaxCall(url, method, data, null, function(err, resp) {
+
+                });
+            } else if (method === 'delete') {
+                url = url + '/' + data.itemId;
+                this.makeAjaxCall(url, method, {}, null, function(err, resp) {
+
+                });
+            }
+        },
+        _changeMenu: function(e) {
+            var venueId = e.model.item.venueId;
+            var vendorId = sessionStorage.getItem('vendorId');
+            var url = "api/Items?filter[where][venueId]=" + venueId + "&filter[where][vendorId]=" + vendorId;
+            this.makeAjaxCall(url, 'get', null, null, function(err, resp) {
+                if (err)
+                    console.log(err);
+                else {
+                    this.set('items', resp);
+                }
+            }.bind(this));
+        }
+    })
+    </script>
+</dom-module>

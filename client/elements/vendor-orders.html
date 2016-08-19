@@ -1,0 +1,208 @@
+<dom-module id="vendor-orders">
+    <template>
+        <style>
+        .order {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 50px;
+            border-bottom: 1px solid #eee;
+            padding: 2px;
+        }
+        
+        .main-content {
+            margin-top: 30px;
+        }
+        
+        #dialog {
+            width: 60%;
+            height: 70%;
+            overflow: auto;
+        }
+        
+        .dialog-header {
+            background-color: #fff;
+            display: flex;
+            height: 15%;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dialog-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .dialog-items-header {
+            height: 40px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: auto;
+        }
+        
+        .dialog-item {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 40px;
+            margin: auto;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bottom {}
+        
+        .dialog-content {
+            height: 45%;
+        }
+        
+        .title {
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            height: 30px;
+        }
+        </style>
+        <div class="main-content">
+            <div class="title">[[title]]</div>
+            <div class="order">
+                <div>OrderId</div>
+                <div>Delivery Location</div>
+                <div>Status</div>
+            </div>
+            <template is="dom-repeat" items="[[orders]]">
+                <div class="order" on-tap="action">
+                    <div>[[item.shortOrderId]]</div>
+                    <div>[[item.deliveryLocation]]</div>
+                    <div>[[item.status]]</div>
+                </div>
+            </template>
+        </div>
+        <paper-dialog id="dialog" with-backdrop>
+            <div class="dialog-header">
+                Items for Order no - [[selectedOrderId]]
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-items-header">
+                    <div>Item</div>
+                    <div>Quantity</div>
+                </div>
+                <template is="dom-repeat" items="[[orderItems]]">
+                    <div class="dialog-item">
+                        <div>[[item.name]]</div>
+                        <div>[[item.quantity]]</div>
+                    </div>
+                </template>
+            </div>
+            <div hidden$="[[!buttonVisible]]" class="bottom">
+                <div class="dialog-footer" hidden$="[[isDipatch]]">
+                    <paper-button on-tap="reject" class="secondary" raised>Reject</paper-button>
+                    <paper-button on-tap="accept" class="primary" raised>Accept</paper-button>
+                </div>
+                <div class="dialog-footer" hidden$="[[!isDipatch]]">
+                    <paper-button on-tap="dispatch" class="primary" raised>Dispatch</paper-button>
+                </div>
+            </div>
+            <div hidden$="[[buttonVisible]]" class="bottom">
+                <paper-button on-tap="closeDialog" class="primary">CLOSE</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+    <script>
+    Polymer({
+        is: "vendor-orders",
+        properties: {
+            orders: {
+                type: Array,
+                value: []
+            },
+            orderItems: {
+                type: Array,
+                value: []
+            },
+            selectedOrderId: {
+                type: String
+            },
+            isDipatch: {
+                type: Boolean,
+                value: false
+            },
+            buttonVisible: {
+                type: Boolean,
+                value: true
+            }
+        },
+        behaviors: [CommonBehavior.AjaxBehavior],
+        action: function(e) {
+            this.$.dialog.open();
+            var vendorId = sessionStorage.getItem('vendorId')
+            var orderId = e.model.item.orderId;
+            this.set('selectedOrderId', orderId);
+            var url = 'api/Orders?filter[where][orderId]=' + orderId;
+            this.makeAjaxCall(url, 'get', null, null, function(err, resp) {
+                this.set('orderItems', !resp[0] ? resp : resp[0].itemList);
+                this.set('buttonVisible', true);
+                if (resp[0].status === 'PROCESSING') {
+                    this.set('isDipatch', true);
+                } else {
+                    this.set('isDipatch', false);
+                }
+                if (resp[0].status === 'DISPATCH') {
+                    this.set('buttonVisible', false);
+                }
+            }.bind(this));
+        },
+        reject: function(e) {
+            this.updateOrder('CANCEL', 'PENDING');
+            this.fire('reduce-new');
+        },
+        accept: function(e) {
+            //this.updateOrder('PROCESSING', 'PENDING');
+            this.fire('reduce-new');
+            this.updateItem();
+        },
+        updateItem: function(e) {
+            var itemsToUpdate = this.orderItems.map(function(d) {
+                return {
+                    itemId: d.itemId,
+                    quantity: d.quantity
+                };
+            });
+            itemsToUpdate.forEach(function(d) {
+                this.makeAjaxCall('api/Items/' + d.itemId, 'get', null, null, function(err, resp) {
+                    if (resp) {
+                        this.makeAjaxCall('api/Items/' + d.itemId, 'put', {
+                            availableQuantity: resp.availableQuantity - d.quantity
+                        }, null, function(er, res) {
+                            console.log(res);
+                        });
+                    }
+                }.bind(this));
+            }.bind(this));
+            var itemId;
+            var url = 'api/Items';
+        },
+        dispatch: function(e) {
+            this.updateOrder('DISPATCH', 'DISPATCH');
+        },
+        closeDialog: function(e) {
+            this.$.dialog.close();
+        },
+        updateOrder: function(type1, type2) {
+            var url = "api/Orders/" + this.selectedOrderId;
+            var data = {
+                status: type1
+            }
+            this.makeAjaxCall(url, 'put', data, null, function(err, resp) {
+                this.fire('show-vendor-orders', {
+                    type: type2
+                })
+                this.closeDialog();
+            }.bind(this));
+        }
+    })
+    </script>
+</dom-module>

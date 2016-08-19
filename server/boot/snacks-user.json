@@ -1,0 +1,50 @@
+[{
+    "name": "Nominos",
+    "mobileNumber": "9999999999",
+    "email": "9999999999@snacksnow.com",
+    "userType": "seller",
+    "password": "root",
+    "id":"seller1"
+}, {
+    "name": "Star Rocks",
+    "mobileNumber": "8888888888",
+    "email": "8888888888@snacksnow.com",
+    "userType": "seller",
+    "password": "root",
+    "id":"seller2"
+}, {
+    "name": "SaldiRams",
+    "mobileNumber": "7777777777",
+    "email": "7777777777@snacksnow.com",
+    "userType": "seller",
+    "password": "root",
+    "id":"seller3"
+}, {
+    "name": "Sourav",
+    "mobileNumber": "1111111111",
+    "email": "1111111111@snacksnow.com",
+    "userType": "buyer",
+    "password": "root",
+    "id":1
+}, {
+    "name": "Sambit",
+    "mobileNumber": "2222222222",
+    "email": "2222222222@snacksnow.com",
+    "userType": "buyer",
+    "password": "root",
+    "id":2
+}, {
+    "name": "Gourav",
+    "mobileNumber": "3333333333",
+    "email": "3333333333@snacksnow.com",
+    "userType": "buyer",
+    "password": "root",
+    "id":3
+}, {
+    "name": "Ramesh",
+    "mobileNumber": "4444444444",
+    "email": "4444444444@snacksnow.com",
+    "userType": "buyer",
+    "password": "root",
+    "id":4
+}]

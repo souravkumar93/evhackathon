@@ -7,33 +7,24 @@
     "validateUpsert": true
   },
   "properties": {
-    "type": {
-      "type": "string"
-    },
-    "city": {
-      "type": "string"
-    },
-    "state": {
-      "type": "string"
-    },
-    "pin": {
-      "type": "number"
+    "venueId": {
+      "type": "string",
+      "id": true,
+      "index": true
     },
     "name": {
-      "type": "string",
-      "required": false
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
-    "vendors" : {
-      "type" : "hasMany",
-      "model" : "Vendor",
-      "foreignKey" : "venueId",
-      "through" :"Item",
-      "keyThrough": "vendorId"
+    "hasvendors": {
+      "type": "hasMany",
+      "model": "Vendor",
+      "foreignKey": "venueId",
+      "through": "Item"
     }
-    },
+  },
   "acls": [],
   "methods": {}
 }

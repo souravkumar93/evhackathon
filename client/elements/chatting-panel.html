@@ -2,145 +2,163 @@
 <dom-module id="chatting-panel">
     <template>
         <style>
-        .req-panel {
-            position: absolute;
-            bottom: 0px;
-            left: 0;
-            height: 60px;
-            display: inline-block;
-            width: 100%;
-            background: #eee;
-            padding-top: 24px;
-        }
-        
-        .req-input {
-            float: left;
-            padding: 8px 16px;
-            width: calc(100% - 80px);
-            box-sizing: border-box;
-        }
-        
-        .sent-btn {
-            float: right;
-            width: 60px;
-            background: #00b;
-            position: relative;
-            top: -10px;
-            right: 15px;
-        }
-        
-        .user-img {
-            height: 60px;
-            padding: 8px;
-            border-radius: 50%;
-            box-sizing: border-box;
-            width: 60px;
-            float: left;
-        }
-        
-        .msgs {
-            height: calc(100vh - 190px);
-            overflow: overlay;
-            width: 100%;
-        }
-        
-        .msg {
-            width: 100%;
-            height: 60px;
-            box-sizing: border-box;
-        }
-        
-        .content {
-            padding: 8px;
-            display: inline;
-            float: left;
-            margin-top: 12px;
-            position: relative;
-            max-width: 74%;
-            word-wrap: break-word;
-        }
-        
-        .res .content {
-            background: #aaedf5;
-            border-radius: 0px 12px 12px 12px;
-        }
-        
-        .req .content {
-            background: #05f5d5;
-            border-radius: 12px 12px 0px 12px;
-        }
-        
-        .req >* {
-            float: right;
-        }
-        
-        .req .user-img {
-            margin-right: 15px;
-        }
-        
-        .res .content:before {
-            content: "";
-            border-top: 6px solid #aaedf5;
-            position: absolute;
-            top: 0px;
-            left: -10px;
-            border-left: 6px solid rgba(0, 0, 0, 0);
-            border-bottom: 6px solid rgba(0, 0, 0, 0);
-            border-right: 6px solid #aaedf5;
-        }
-        
-        .req .content:after {
-            content: "";
-            border-bottom: 6px solid #05f5d5;
-            position: absolute;
-            bottom: 0px;
-            right: -10px;
-            border-top: 6px solid rgba(0, 0, 0, 0);
-            border-right: 6px solid rgba(0, 0, 0, 0);
-            border-left: 6px solid #05f5d5;
-        }
-        
-        .main-heading {
-            height: 48px;
-            background: #5d5dec;
-            padding: 16px;
-            box-sizing: border-box;
-            color: #fefefe;
-            font-size: 18px;
-            position: relative;
-        }
-        
-        .menu-btn {
-            background: #ff9800;
-            position: absolute;
-            right: 26px;
-            top: 18px;
-        }
+            .req-panel {
+                position: absolute;
+                bottom: 0px;
+                left: 0;
+                height: 60px;
+                display: inline-block;
+                width: 100%;
+                background: #eee;
+                padding-top: 8px;
+            }
+            
+            .req-input {
+                float: left;
+                padding: 8px 16px 0px;
+                width: calc(100% - 60px);
+                box-sizing: border-box;
+                position: relative;
+                top: -4px;
+            }
+            
+            .sent-btn {
+                float: right;
+                width: 60px;
+                background: #00b;
+                position: relative;
+                top: 4px;
+                right: 14px;
+                width: 44px;
+                height: 44px;
+            }
+            
+            .user-img {
+                height: 60px;
+                padding: 8px;
+                border-radius: 50%;
+                box-sizing: border-box;
+                width: 60px;
+                float: left;
+            }
+            
+            .msgs {
+                height: calc(100vh - 178px);
+                overflow: overlay;
+                width: 100%;
+            }
+            
+            .msg {
+                width: 100%;
+                height: 60px;
+                box-sizing: border-box;
+            }
+            
+            .content {
+                display: inline;
+                float: left;
+                margin-top: 12px;
+                position: relative;
+                width: 74%;
+                word-wrap: break-word;
+                min-width: 30px;
+            }
+            
+            .res .content div {
+                padding: 8px;
+                background: #aaedf5;
+                border-radius: 0px 12px 12px 12px;
+                white-space: pre-line;
+                display: inline-block;
+            }
+            
+            .req .content div {
+                padding: 8px;
+                background: #05f5d5;
+                border-radius: 12px 12px 0px 12px;
+                text-align: end;
+                float: right;
+                display: inline-block;
+                min-width: 30px;
+            }
+            
+            .req >* {
+                float: right;
+            }
+            
+            .req .user-img {
+                margin-right: 15px;
+            }
+            
+            .res .content:before {
+                content: "";
+                border-top: 6px solid #aaedf5;
+                position: absolute;
+                top: 0px;
+                left: -10px;
+                border-left: 6px solid rgba(0, 0, 0, 0);
+                border-bottom: 6px solid rgba(0, 0, 0, 0);
+                border-right: 6px solid #aaedf5;
+            }
+            
+            .req .content:after {
+                content: "";
+                border-bottom: 6px solid #05f5d5;
+                position: absolute;
+                bottom: 0px;
+                right: -10px;
+                border-top: 6px solid rgba(0, 0, 0, 0);
+                border-right: 6px solid rgba(0, 0, 0, 0);
+                border-left: 6px solid #05f5d5;
+            }
+            
+            .main-heading {
+                height: 48px;
+                background: #5d5dec;
+                padding: 16px;
+                box-sizing: border-box;
+                color: #fefefe;
+                font-size: 18px;
+                position: relative;
+            }
+            
+            .menu-btn {
+                background: #ff9800;
+                position: absolute;
+                right: 26px;
+                top: 18px;
+                z-index: 100;
+            }
         </style>
         <div class="main-content">
-            <div class="main-heading">Chat bot
+            <div class="main-heading">Order bot
                 <paper-fab id="menu" class="menu-btn" icon="maps:restaurant-menu" on-tap="_showItems"></paper-fab>
                 <paper-tooltip for="menu">Browse menu</paper-tooltip>
             </div>
-            <div class="msgs">
-                <template is="dom-repeat" items="[[chatMessages]]">
-                    <template is="dom-if" if="[[getReqType(item.type)]]">
-                    <div class="msg res">
-                        <img class="user-img" src="../images/bot.png" />
-                        <div class="content">[[item.content]]</div>
-                    </div>
-                    </template>
+            <div class="msgs" id="box">
+                <template is="dom-repeat" items="[[chatMessages]]" on-dom-change="focusLastMessage">
                     <template is="dom-if" if="[[getResType(item.type)]]">
-                    <div class="msg req">
-                        <img class="user-img" src="../images/pokemon.jpg" />
-                        <div class="content"> [[item.content]]</div>
-                    </div>
+                        <div class="msg res">
+                            <img class="user-img" src="../images/bot.png" />
+                            <div class="content">
+                                <div>[[item.content]]</div>
+                            </div>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[getReqType(item.type)]]">
+                        <div class="msg req">
+                            <img class="user-img" src="../images/pokemon.jpg" />
+                            <div class="content">
+                                <diV>[[item.content]]</div>
+                            </diV>
+                        </div>
                     </template>
                 </template>
             </div>
             <div class="req-panel">
-                <paper-input class="req-input" type="text" no-label-float value="{{message}}"></paper-input>
-                <paper-fab class="sent-btn" icon="icons:send" on-tap="_sendMessage"></paper-fab>
+                <paper-input class="req-input" id="transcript" char-counter maxlength="160" type="text" no-label-float value="{{message}}"></paper-input>
+                <paper-fab class="sent-btn" icon="icons:send" on-tap="_sendMessage" hidden$="{{recording}}"></paper-fab>
+                <paper-fab class="sent-btn" icon="av:mic" on-tap="_recordText" hidden$="{{!recording}}"></paper-fab>
             </div>
         </div>
     </template>
@@ -151,40 +169,108 @@
             chatMessages: {
                 type: Array,
                 value: []
+            },
+            recording:{
+                 type: Boolean,
+                value: true
+            },
+            message : {
+                type : String,
+                observer : "_textChanged",
+                value :""
+            },
+            venue: {
+                type: Object,
+                value: {}
             }
         },
         behaviors: [CommonBehavior.AjaxBehavior],
         _showItems: function(e) {
-            this.fire('show-items')
+            this.fire('show-items');
+        },
+        _textChanged : function(){
+            if(this.message.trim().length)
+              this.set('recording',false);
+            else
+              this.set('recording',true);
         },
         _sendMessage: function(e) {
             var msg = this.message;
             msg = msg.trim();
             if (msg) {
+                var req = {
+                    'content': msg,
+                    'type': 'req'
+                }
+                this.push('chatMessages', req);
                 this.getResponse(msg, function(err, resp) {
-                    debugger;
-                    console.log(err);
-                    if (resp) {
-                        debugger;
-                        this.chatMessages.push(resp);
+                    if (err) {
+                        //     var res={
+                        //         'content':err.detail.request.__data__.response.error.body,
+                        //         'type':'res'
+                        //     }
+                        //    this.push('chatMessages',res);
+                        console.log(err);
                     }
+                   this.push('chatMessages', resp);
+                      
                 }.bind(this));
+                this.focusLastMessage();
             }
             this.set('message', "");
+            this.set('recording',true);
         },
         getResponse: function(msg, cb) {
+            var url = '/chat'; //"api/ChatBots";
             var data = {
                 name: msg
             };
-            this.makeAjaxCall('http://localhost:8080', 'post', data, null, function(err, resp) {
+            var customHeaders=this.venue;
+            customHeaders.userId=sessionStorage.getItem('userId')|| "default";
+            this.makeAjaxCall(url, 'post', data, customHeaders, function(err, resp) {
                 cb(err, resp);
             });
         },
-        getReqType : function(item){
-            return item ==='req';
+        getReqType: function(item) {
+            return item === 'req';
         },
-        getResType : function(item){
-            return item ==='res';
+        getResType: function(item) {
+            return item === 'res';
+        },
+        focusLastMessage: function() {
+            this.async(function(){
+                var element = this.querySelectorAll('.msg')
+                if (element.length == 0)
+                    return;
+                ele = element[element.length-1];
+                ele.scrollIntoView();
+            });
+        },
+        _recordText: function(e) {
+            var self = this;
+            if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+                var recognition = new webkitSpeechRecognition();
+
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                recognition.lang = "en-In";
+                recognition.start();
+
+                recognition.onresult = function(event) {
+                    document.getElementById('transcript').value  += event.results[0][0].transcript+" ";
+                    self.set('recording',false);
+                  //recognition.stop();
+                };
+
+                recognition.onerror = function(e) {
+                    recognition.stop();
+                }
+
+            } else {
+                console.log("no microphone");
+            }
         }
     });
     </script>

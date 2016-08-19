@@ -1,0 +1,40 @@
+{
+    "name": "Ticket",
+    "base": "PersistedModel",
+    "strict": false,
+    "idInjection": false,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "ticketId": {
+            "type": "string",
+            "id": true,
+            "index": true
+        },
+        "showTime": {
+            "type": "string"
+        },
+        "showDate": {
+            "type": "date"
+        },
+        "seat": {
+            "type": "string"
+        }
+    },
+    "validations": [],
+    "relations": {
+        "venue": {
+            "type": "belongsTo",
+            "model": "Venue",
+            "foreignKey": ""
+        },
+        "user": {
+            "type": "belongsTo",
+            "model": "snacksUser",
+            "foreignKey": ""
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

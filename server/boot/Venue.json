@@ -1,48 +1,13 @@
 [{
-    "type": "Cinema",
-    "city": "BLR",
-    "state": "KAR",
-    "pin": 560100,
-    "name": "PVRForum",
-    "id": 1001
-},
-{
-    "type": "Cinema",
-    "city": "BOM",
-    "state": "MH",
-    "pin": 600987,
-    "name": "InoxJuhu",
-    "id": 1002
-},
-{
-    "type": "Cinema",
-    "city": "BLR",
-    "state": "KAR",
-    "pin": 563400,
-    "name": "PVROrian",
-    "id": 1003
-},
-{
-    "type": "Event",
-    "city": "BLR",
-    "state": "KAR",
-    "pin": 560100,
-    "name": "ComicConIn",
-    "id": 1004
-},
-{
-    "type": "Event",
-    "city": "BLR",
-    "state": "KAR",
-    "pin": 587687,
-    "name": "InterStateFootball",
-    "id": 1005
-},
-{
-    "type": "Event",
-    "city": "PUNE",
-    "state": "MH",
-    "pin": 600907,
-    "name": "KawwaliShow",
-    "id": 1006
+    "venueId": "vu111",
+    "name": "PVR Forum"
+}, {
+    "venueId": "vu222",
+    "name": "chinnaswamy stadium"
+}, {
+    "venueId": "vu333",
+    "name": "phoenix mall"
+}, {
+    "venueId": "vu444",
+    "name": "cinepolis bannerghata"
 }]

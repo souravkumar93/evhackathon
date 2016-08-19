@@ -1,0 +1,89 @@
+<dom-module id="customer-menu">
+    <template>
+        <style>
+        .options {
+            height: 30px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            font-family: monospace;
+            padding-top: 12px;
+            padding-left: 16px;
+            cursor: pointer;
+        }
+        
+        .options:hover {
+            background: #eee;
+        }
+        
+        .profile {
+            border-bottom: 1px solid #eee;
+            display: flex;
+        }
+        
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 12px 16px;
+        }
+        
+        .profile div {
+            flex: 70%;
+            padding: 22px 8px;
+            font-size: 18px;
+            color: #555;
+        }
+        </style>
+        <div class="profile" index="0">
+            <img src="../images/pokemon.jpg">
+            <div>[[username]]</div>
+        </div>
+        <div on-tap="_changeMenu" class="options" index="0"> Scan QR </div>
+        <div on-tap="_changeMenu" class="options" index="1"> Orders </div>
+        <div on-tap="_changeMenu" class="options" index="2"> [[ifLoggedIn()]] </div>
+    </template>
+    <script>
+    Polymer({
+        is: "customer-menu",
+        _changeMenu: function(e) {
+            var index = e.currentTarget.getAttribute('index');
+            index = parseInt(index);
+            this.changeMenu(index);
+        },
+        attached : function(){
+            this.setSelectedMenu(0);
+        },
+        changeMenu: function(index) {
+            if (index === 1) {
+                this.fire('show-customer-orders')
+                this.fire('stop-scan-qr');
+            } else if (index === 0)
+                this.fire('show-scan-qr')
+            else if (index === 2) {
+                this.fire('stop-scan-qr');
+                if (this.ifLoggedIn().toLowerCase() === 'login') {
+                    window.location.assign('/login')
+                } else {
+                    this.fire('logout')
+                }
+            }
+            this.fire('close-drawer');
+            this.setSelectedMenu(index);
+        },
+        ifLoggedIn: function() {
+            if (sessionStorage.userType)
+                return "Logout";
+            return "Login"
+        },
+        setSelectedMenu: function(index) {
+            var elements = this.querySelectorAll('.options');
+            elements.forEach(function(d, i) {
+                if (i === index)
+                    d.classList.add('selected');
+                else
+                    d.classList.remove('selected');
+            });
+        }
+    })
+    </script>
+</dom-module>

@@ -2,46 +2,26 @@
 <dom-module id="snacks-now">
     <template>
         <style>
-            .options {
-                height: 30px;
-                border-bottom: 1px solid #eee;
-                font-size: 16px;
-                font-family: monospace;
-                padding-top: 12px;
-                padding-left: 16px;
-                cursor: pointer;
-            }
-            
-            .options:hover {
-                background: #eee;
-            }
-            
-            .side-header {
-                box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
-            }
-            
-            paper-toolbar {
-                font-size: 20px;
-            }
-            
-            .profile {
-                border-bottom: 1px solid #eee;
-                display: flex;
-            }
-            
-            .profile img {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                margin: 12px 16px;
-            }
-            
-            .profile div {
-                flex: 70%;
-                padding: 22px 8px;
-                font-size: 18px;
-                color: #555;
-            }
+        .side-header {
+            box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        paper-toolbar {
+            font-size: 20px;
+        }
+        
+        #dialog {
+            width: 50%;
+            height: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        #dialog paper-button {
+            height: 25%;
+        }
         </style>
         <div class="main-content">
             <paper-drawer-panel id="drawerPanel">
@@ -49,12 +29,8 @@
                     <paper-toolbar>
                         <div>Menu</div>
                     </paper-toolbar>
-                    <div class="profile" index="0">
-                        <img src="../images/pokemon.jpg">
-                        <div>Ramesh</div>
-                    </div>
-                    <div on-tap="_changeMenu" class="options" index="0"> Scan QR </div>
-                    <div on-tap="_changeMenu" class="options" index="1"> Orders </div>
+                    <customer-menu hidden$="[[!isCustomer]]" username="[[userName]]" id="customerMenu"></customer-menu>
+                    <vendor-menu hidden$="[[isCustomer]]" vendor-name="[[userName]]" id="vendorMenu"></vendor-menu>
                 </paper-header-panel>
                 <paper-header-panel main>
                     <paper-toolbar>
@@ -67,11 +43,23 @@
                         </div>
                         <div>
                             <order-list id="orderList"></order-list>
-                        </div>                        
+                        </div>
+                        <div>
+                            <vendor-items id="vendorItems"></vendor-items>
+                        </div>
+                        <div>
+                            <vendor-orders id="vendorOrders"></vendor-orders>
+                        </div>
                     </iron-pages>
                 </paper-header-panel>
             </paper-drawer-panel>
         </div>
+        <paper-dialog id="dialog" with-backdrop>
+            <div>
+                <strong>New Order Arrived.</strong>
+            </div>
+            <paper-button class="primary" on-tap="check">Check</paper-button>
+        </paper-dialog>
     </template>
     <script>
     Polymer({
@@ -80,19 +68,67 @@
             selected: {
                 type: Number,
                 value: 0
+            },
+            isCustomer: {
+                type: Boolean,
+                value: true
             }
         },
-        listeners : {
-            'order-list' : '_showOrderList'
+        listeners: {
+            'order-list': '_showOrderList',
+            'show-customer-orders': "_showOrderList",
+            'show-vendor-orders': "_showVendorOrders",
+            'show-vendor-stocks': "_showVendorItems",
+            'logout': '_logOut',
+            'show-scan-qr': "_scanQr",
+            'stop-scan-qr': "_stopScanQr",
+            'close-drawer': "closeDrawerMenu",
+            'new-order': "_newOrder",
+            'reduce-new': "_updateNoOfNewOrder"
+        },
+        behaviors: [CommonBehavior.AjaxBehavior],
+        attached: function() {
+            var type = sessionStorage.getItem('userType');
+            if (type === 'seller') {
+                this.set('isCustomer', false);
+                this.set('selected', 2);
+            } else {
+                this.set('isCustomer', true);
+                this.set('selected', 0);
+            }
+            var userName = sessionStorage.getItem('userName');
+            if (typeof userName !== 'undefined') {
+                this.set('userName', userName);
+            } else {
+                this.set('userName', 'User')
+            }
+        },
+        _updateNoOfNewOrder: function() {
+            this.$.vendorMenu.noOfNewOrders--;
+            if (this.$.vendorMenu.noOfNewOrders === 1)
+                this.$.vendorMenu.noOfNewOrders = 0;
+        },
+        _newOrder: function() {
+            this.$.dialog.open();
+        },
+        check: function() {
+            this.$.dialog.close();
+            this.$.vendorMenu.check();
+        },
+        _scanQr: function() {
+            this.$.homeElement._startScan();
+            this.set('selected', 0)
+        },
+        _stopScanQr: function() {
+            this.$.homeElement._stopScan();
         },
         _changeMenu: function(e) {
             var index = e.currentTarget.getAttribute('index');
             index = parseInt(index);
             if (index === 0)
-                this.$.homeElement._startScan();
+                this._scanQr();
             else
-                this.$.homeElement._stopScan();
-
+                this._stopScanQr();
             if (index === 1)
                 this.$.orderList.getOrderList();
             this.set('selected', index);
@@ -101,9 +137,43 @@
         closeDrawerMenu: function() {
             this.$.drawerPanel.closeDrawer();
         },
-        _showOrderList : function(){
+        _showOrderList: function() {
             this.$.orderList.getOrderList();
             this.set('selected', 1);
+        },
+        _showVendorOrders: function(e) {
+            var type = e.detail.type;
+            var vendorId = sessionStorage.getItem('vendorId');
+            var url = 'api/Orders?filter[where][vendorId]=' + vendorId + "&filter[where][status]=" + type;
+            this.makeAjaxCall(url, 'get', null, null, function(err, resp) {
+                resp.forEach(function(d) {
+                    d.shortOrderId = d.orderId.substring(d.orderId.length - 6, d.orderId.length)
+                });
+                this.$.vendorOrders.orders = resp;
+                this.set('selected', 3);
+                this.setTitle(type);
+            }.bind(this));
+        },
+        setTitle: function(type) {
+            var title = "";
+            if (type === 'PENDING')
+                title = "New Orders";
+            else if (type === 'PROCESSING')
+                title = "Order Under Process";
+            else if (type === 'DISPATCHED')
+                title = "Dispatched Orders"
+            this.$.vendorOrders.title = title;
+        },
+        _showVendorItems: function(e) {
+            this.set('selected', 2);
+            this.$.vendorItems.refreshItems();
+        },
+        _logOut: function() {
+            delete sessionStorage.userName;
+            delete sessionStorage.vendorId;
+            delete sessionStorage.userType;
+            delete sessionStorage.email;
+            window.location.assign('/');
         }
     })
     </script>

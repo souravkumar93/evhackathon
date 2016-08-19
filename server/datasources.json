@@ -4,14 +4,25 @@
     "connector": "memory"
   },
   "mongoDb": {
-        "host": "localhost",
-        "port": 27017,
-        "url": "mongodb://localhost:27017/db",
-        "database": "db",
-        "password": "admin",
-        "name": "db",
-        "connector": "mongodb",
-        "user": "admin",
-        "connectionTimeout": 50000
+    "host": "localhost",
+    "port": 27017,
+    "url": "mongodb://localhost:27017/db",
+    "database": "db",
+    "password": "admin",
+    "name": "mongoDb",
+    "connector": "mongodb",
+    "user": "admin",
+    "connectionTimeout": 50000
+  },
+  "chatBot": {
+    "name": "chatBot",
+    "connector": "rest",
+    "baseURL": "http://localhost:8080",
+    "options": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json"
+      }
     }
+  }
 }

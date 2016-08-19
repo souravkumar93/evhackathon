@@ -1,0 +1,112 @@
+<dom-module id="sign-up">
+    <template>
+        <style>
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .main-content >* {
+            width: 75%;
+        }
+        
+        paper-button {
+            background-color: #f3db47;
+            margin-top: 20px;
+        }
+        </style>
+        <div class="main-content">
+            <paper-input id="name" label="Name" value="{{name}}"></paper-input>
+            <paper-input id="mobileNumber" maxlength=10 label="Mobile Number" value="{{mobileNumber}}"></paper-input>
+            <paper-input id="password" label="Password" type="password" value="{{password}}"></paper-input>
+            <paper-input label="Confirm Password" type="password" value="{{confirmPassword}}"></paper-input>
+            <paper-dropdown-menu label="User Type" id="userType">
+                <paper-menu class="dropdown-content" attr-for-selected="datavalue" selected="{{userType}}">
+                    <paper-item datavalue="buyer">Buyer</paper-item>
+                    <paper-item datavalue="seller">Seller</paper-item>
+                </paper-menu>
+            </paper-dropdown-menu>
+            <paper-button on-tap="signup">Sign Up</paper-button>
+            <paper-button on-tap="login">Login</paper-button>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "sign-up",
+        behaviors: [CommonBehavior.AjaxBehavior],
+        signup: function() {
+            var validate = this.validate();
+            if (!validate)
+                return;
+
+            var data = {};
+            data.name = this.name;
+            data.password = this.password;
+            data.userType = this.userType;
+            data.mobileNumber = this.mobileNumber;
+            data.email = this.mobileNumber + "@snacksnow.com";
+
+            this.makeAjaxCall('api/snacksUsers', 'post', data, null, function(err, resp) {
+                if (err) {
+                    alert('Mobile Number already exist.');
+                } else {
+                    window.location.assign('/login');
+                }
+            });
+
+        },
+        login: function() {
+            window.location.assign('/login');
+        },
+        validate: function() {
+
+            var username = this.name;
+            var password = this.password;
+            var confirmPassword = this.confirmPassword;
+            var userType = this.userType;
+            var mobileNumber = this.mobileNumber;
+
+            if (password !== confirmPassword) {
+                alert('Password didn\'t match');
+                this.set('password', "");
+                this.set('confirmPassword', "");
+                this.$.password.focus();
+                return false;
+            }
+
+            if (username.trim() === "") {
+                alert('Name field is required.');
+                this.$.name.focus();
+                return false;
+            }
+
+            if (mobileNumber.trim() === "") {
+                alert('Mobile Number field is required.');
+                this.$.mobileNumber.focus();
+                return false;
+            }
+
+            if (isNaN(mobileNumber) || mobileNumber.length !== 10) {
+                alert('Mobile Number is not valid.');
+                this.$.mobileNumber.focus();
+                return false;
+            }
+
+            if (password.trim() === "") {
+                alert('Password field is required.');
+                this.$.password.focus();
+                return false;
+            }
+
+            if (!userType) {
+                alert('User Type field is required.');
+                this.$.userType.open();
+                return false;
+            }
+
+            return true;
+        }
+    })
+    </script>
+</dom-module>

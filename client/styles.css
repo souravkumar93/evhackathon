@@ -1,0 +1,14 @@
+.primary {
+    color: #fff;
+    background-color: #4b40f3;
+}
+
+.secondary {
+    color: #100000;
+    background-color: #e4de16;
+}
+
+.selected {
+    background-color: #eee;
+    border-right: 2px solid #4b40f3;
+}

@@ -92,7 +92,7 @@
                         <div class="price">
                             [[item.price]] </div>
                         <div class="remove">
-                            <paper-input type="number" no-label-float on-change="numberChange" value="{{item.nos}}"></paper-input>
+                            <paper-input type="number" no-label-float on-change="numberChange" value="{{item.quantity}}"></paper-input>
                         </div>
                     </div>
                 </template>
@@ -115,20 +115,20 @@
             }
         },
         numberChange: function(e) {
-            var quantity = e.model.item.nos;
+            var quantity = e.model.item.quantity;
             var index = e.model.index;
             quantity = parseInt(quantity);
             if (quantity < 0)
                 quantity = 0;
-            this.set('items.' + index + '.nos', quantity);
+            this.set('items.' + index + '.quantity', quantity);
             this.calculatePrice();
         },
         calculatePrice: function() {
             var totalPrice = 0;
             this.items.forEach(function(d) {
-                if (!d.nos)
-                    d.nos = 0;
-                totalPrice += d.price * d.nos;
+                if (!d.quantity)
+                    d.quantity = 0;
+                totalPrice += d.price * d.quantity;
             });
             this.set('totalPrice', totalPrice);
         },

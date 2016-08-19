@@ -1,0 +1,77 @@
+<dom-module id="log-in">
+    <template>
+        <style>
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .main-content >* {
+            width: 75%;
+        }
+        
+        paper-button {
+            background-color: #f3db47;
+            margin-top: 20px;
+        }
+        </style>
+        <div class="main-content">
+            <paper-input autocomplete="off" id="mobileNumber" maxlength=10 label="Mobile Number" value="{{mobileNumber}}"></paper-input>
+            <paper-input autocomplete="off" id="password" label="Password" type="password" value="{{password}}"></paper-input>
+            <paper-button on-tap="login">Login</paper-button>
+            <paper-button on-tap="signUp">Sign Up</paper-button>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: "log-in",
+        behaviors: [CommonBehavior.AjaxBehavior],
+        login: function() {
+            var validate = this.validate();
+            if (!validate)
+                return;
+
+            var data = {};
+
+            data.password = this.password;
+            data.mobileNumber = this.mobileNumber;
+            data.email = this.mobileNumber + "@snacksnow.com";
+            this.makeAjaxCall('api/snacksUsers/login', 'post', data, null, function(err, resp) {
+                if (err)
+                    alert('Login failed.')
+                else {
+                    sessionStorage.setItem('userType', resp.userType);
+                    sessionStorage.setItem('vendorId', resp.vendorId);
+                    sessionStorage.setItem('userName', resp.name);                    
+                    sessionStorage.setItem('email', resp.email);
+                    window.location.assign('/');
+                }
+            });
+        },
+        signUp: function() {
+            window.location.assign('/signup');
+        },
+        validate: function() {
+            var password = this.password;
+            var mobileNumber = this.mobileNumber;
+            if (mobileNumber.trim() === "") {
+                alert('Mobile Number field is required.');
+                this.$.mobileNumber.focus();
+                return false;
+            }
+            if (isNaN(mobileNumber) || mobileNumber.length !== 10) {
+                alert('Mobile Number is not valid.');
+                this.$.mobileNumber.focus();
+                return false;
+            }
+            if (password.trim() === "") {
+                alert('Password field is required.');
+                this.$.password.focus();
+                return false;
+            }
+            return true;
+        }
+    })
+    </script>
+</dom-module>

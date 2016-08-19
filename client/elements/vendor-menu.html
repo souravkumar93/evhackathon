@@ -1,0 +1,129 @@
+<dom-module id="vendor-menu">
+    <template>
+        <style>
+        .options {
+            height: 30px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            font-family: monospace;
+            padding-top: 12px;
+            padding-left: 16px;
+            cursor: pointer;
+        }
+        
+        .options:hover {
+            background: #eee;
+        }
+        
+        .profile {
+            border-bottom: 1px solid #eee;
+            display: flex;
+        }
+        
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 12px 16px;
+        }
+        
+        .profile div {
+            flex: 70%;
+            padding: 22px 8px;
+            font-size: 18px;
+            color: #555;
+        }
+        </style>
+        <div class="profile" index="0">
+            <img src="../images/pokemon.jpg">
+            <div>[[vendorName]]</div>
+        </div>
+        <div on-tap="_changeMenu" class="options" index="0"> Stock Items </div>
+        <div on-tap="_changeMenu" class="options" index="1"> New Orders ([[noOfNewOrders]]) </div>
+        <div on-tap="_changeMenu" class="options" index="2"> Processing </div>
+        <div on-tap="_changeMenu" class="options" index="3"> Dispatched </div>
+        <div on-tap="_changeMenu" class="options" index="4"> Logout </div>
+    </template>
+    <script>
+    Polymer({
+        is: "vendor-menu",
+        properties: {
+            noOfNewOrders: {
+                type: Number,
+                value: 0
+            },
+            newOrders: {
+                type: Array,
+                value: []
+            }
+        },
+        attached: function() {
+            this.checkForOrders();
+            this.setSelectedMenu(0);
+        },
+        behaviors: [CommonBehavior.AjaxBehavior],
+        _updateNewOrders: function(data) {
+            this.set('noOfNewOrders', data);
+            this.fire('new-order');
+        },
+        check: function() {
+            this.changeMenu(1);
+            console.log(this.newOrders);
+        },
+        _changeMenu: function(e) {
+            var index = e.currentTarget.getAttribute('index');
+            index = parseInt(index);
+            this.changeMenu(index);
+        },
+        changeMenu: function(index) {
+            if (index === 1) {
+                this.fire('show-vendor-orders', {
+                    type: "PENDING"
+                });
+            } else if (index === 4) {
+                this.fire('logout');
+            } else if (index === 0) {
+                this.fire('show-vendor-stocks')
+            } else if (index === 2) {
+                this.fire('show-vendor-orders', {
+                    type: "PROCESSING"
+                })
+            } else if (index === 3) {
+                this.fire('show-vendor-orders', {
+                    type: "DISPATCH"
+                })
+            }
+            this.setSelectedMenu(index);
+            this.fire('close-drawer');
+        },
+        checkForOrders: function() {
+            var vendorId = sessionStorage.getItem('vendorId');
+            var url = 'api/Orders?filter[where][vendorId]=' + vendorId + "&filter[where][status]=PENDING";
+            if (!vendorId || vendorId === 'undefined')
+                return;
+            setInterval(function() {
+                this.makeAjaxCall(url, 'get', null, null, function(err, resp) {
+                    this.processResponse(resp);
+                }.bind(this));
+            }.bind(this), 3000)
+        },
+        processResponse: function(data) {
+            data.forEach(function(d) {
+                if (this.newOrders.indexOf(d.orderId) === -1) {
+                    this.newOrders.push(d.orderId);
+                    this._updateNewOrders(this.newOrders.length);
+                }
+            }.bind(this));
+        },
+        setSelectedMenu: function(index) {
+            var elements = this.querySelectorAll('.options');
+            elements.forEach(function(d, i) {
+                if (i === index)
+                    d.classList.add('selected');
+                else
+                    d.classList.remove('selected');
+            });
+        }
+    })
+    </script>
+</dom-module>
