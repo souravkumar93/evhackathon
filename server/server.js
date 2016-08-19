@@ -1,18 +1,10 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var http = require('http');
-var socket = require('socket.io');
-var io = socket(http);
 var app = module.exports = loopback();
 
 app.start = function() {
 
-  io.on('connection', function(socket) {
-    console.log("A user is connected");
-    socket.on('status added', function (status) {
-            console.log("received");
-        });
-  });
   // start the web server
   return app.listen(function() {
     app.emit('started');
