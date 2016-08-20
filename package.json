@@ -6,7 +6,7 @@
     "start": "node .",
     "pretest": "jshint .",
     "posttest": "nsp check",
-    "postinstall": "bower install"
+    "postinstall": "bower install && gulp"
   },
   "dependencies": {
     "bower": "^1.7.9",
